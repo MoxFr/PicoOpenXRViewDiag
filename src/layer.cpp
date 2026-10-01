@@ -1,5 +1,5 @@
 #include <openxr/openxr.h>
-#include <openxr_loader_negotiation.h>
+#include <openxr/openxr_loader_negotiation.h>
 #include <windows.h>
 #include <mutex>
 #include <fstream>
