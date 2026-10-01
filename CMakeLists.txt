@@ -24,12 +24,18 @@ target_compile_features(
     cxx_std_17
 )
 
+target_link_libraries(
+    PicoOpenXRViewDiag
+    PRIVATE
+    OpenXR::openxr_loader
+)
+
 target_include_directories(
     PicoOpenXRViewDiag
     PRIVATE
-    ${openxr_sdk_SOURCE_DIR}/include
-    ${openxr_sdk_SOURCE_DIR}/src
-    ${openxr_sdk_SOURCE_DIR}/src/loader
+    ${openxr_SOURCE_DIR}/include
+    ${openxr_SOURCE_DIR}/src
+    ${openxr_SOURCE_DIR}/src/loader
 )
 
 target_compile_definitions(
