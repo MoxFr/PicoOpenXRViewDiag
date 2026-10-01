@@ -1,1 +1,42 @@
 
+name: Build Windows x64
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - Test
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Configure x64
+        run: cmake -S . -B build -A x64
+
+      - name: Build Release
+        run: cmake --build build --config Release
+
+      - name: Package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force package
+          Copy-Item build/Release/PicoOpenXRViewDiag.dll package/
+          Copy-Item XR_APILAYER_MOX_pico_view_diag.json package/
+          Copy-Item Enable-PicoDiag.bat package/
+          Copy-Item Disable-PicoDiag.bat package/
+          Copy-Item Show-Log.bat package/
+          Copy-Item README.md package/
+
+      - name: Upload compiled DLL
+        uses: actions/upload-artifact@v4
+        with:
+          name: PicoOpenXRViewDiag-Windows-x64
+          path: package/
