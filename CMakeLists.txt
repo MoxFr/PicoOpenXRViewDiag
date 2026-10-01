@@ -1,15 +1,47 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.20)
+
 project(PicoOpenXRViewDiag LANGUAGES CXX)
+
 include(FetchContent)
-FetchContent_Declare(OpenXRSDK GIT_REPOSITORY https://github.com/KhronosGroup/OpenXR-SDK.git GIT_TAG main GIT_SHALLOW TRUE)
-FetchContent_MakeAvailable(OpenXRSDK)
-add_library(PicoOpenXRViewDiag SHARED src/layer.cpp)
-target_compile_features(PicoOpenXRViewDiag PRIVATE cxx_std_17)
-target_include_directories(PicoOpenXRViewDiag PRIVATE ${openxrsdk_SOURCE_DIR}/include ${openxrsdk_SOURCE_DIR}/src/loader)
-target_compile_definitions(PicoOpenXRViewDiag PRIVATE XR_USE_PLATFORM_WIN32 WIN32_LEAN_AND_MEAN NOMINMAX)
-set_target_properties(PicoOpenXRViewDiag PROPERTIES OUTPUT_NAME "PicoOpenXRViewDiag")
-if(MSVC)
- target_compile_options(PicoOpenXRViewDiag PRIVATE /W4 /EHsc)
-endif()
-add_custom_command(TARGET PicoOpenXRViewDiag POST_BUILD
- COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/XR_APILAYER_MOX_pico_view_diag.json" "$<TARGET_FILE_DIR:PicoOpenXRViewDiag>/XR_APILAYER_MOX_pico_view_diag.json")
+
+FetchContent_Declare(
+    OpenXR_SDK
+    GIT_REPOSITORY https://github.com/KhronosGroup/OpenXR-SDK-Source.git
+    GIT_TAG main
+)
+
+FetchContent_MakeAvailable(OpenXR_SDK)
+
+add_library(
+    PicoOpenXRViewDiag
+    SHARED
+    src/layer.cpp
+)
+
+target_compile_features(
+    PicoOpenXRViewDiag
+    PRIVATE
+    cxx_std_17
+)
+
+target_include_directories(
+    PicoOpenXRViewDiag
+    PRIVATE
+    ${openxr_sdk_SOURCE_DIR}/include
+    ${openxr_sdk_SOURCE_DIR}/src
+    ${openxr_sdk_SOURCE_DIR}/src/loader
+)
+
+target_compile_definitions(
+    PicoOpenXRViewDiag
+    PRIVATE
+    XR_USE_PLATFORM_WIN32
+    NOMINMAX
+    WIN32_LEAN_AND_MEAN
+)
+
+set_target_properties(
+    PicoOpenXRViewDiag
+    PROPERTIES
+    OUTPUT_NAME "PicoOpenXRViewDiag"
+)
