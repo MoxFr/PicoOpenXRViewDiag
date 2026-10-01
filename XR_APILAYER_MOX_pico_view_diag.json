@@ -1,0 +1,11 @@
+{
+  "file_format_version": "1.0.0",
+  "api_layer": {
+    "name": "XR_APILAYER_MOX_pico_view_diag",
+    "library_path": "PicoOpenXRViewDiag.dll",
+    "api_version": "1.0",
+    "implementation_version": "1",
+    "description": "Read-only OpenXR stereo view diagnostic layer for PICO PCVR",
+    "functions": { "xrNegotiateLoaderApiLayerInterface": "xrNegotiateLoaderApiLayerInterface" }
+  }
+}
